@@ -90,7 +90,7 @@ export const ContactModal: React.FC<ContactModalProps> = ({ children, className 
                 <p className="text-sm">
                   Support the development of PromptCraft by{" "}
                   <a
-                    href="https://buymeacoffee.com/"
+                    href="/"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-purple-600 dark:text-purple-400 font-medium hover:underline"
