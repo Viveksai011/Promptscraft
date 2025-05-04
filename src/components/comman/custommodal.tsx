@@ -82,7 +82,7 @@ export const ContactModal: React.FC<ContactModalProps> = ({ children, className 
           <DialogDescription>
             <div className="mt-2 space-y-4">
               <p>
-                We'd love to hear your suggestions and feedback to improve PromptCraft. Have ideas for new features or
+                We do love to hear your suggestions and feedback to improve PromptCraft. Have ideas for new features or
                 prompt categories?
               </p>
               <div className="flex items-center p-4 bg-purple-50 dark:bg-purple-900/20 rounded-lg">
