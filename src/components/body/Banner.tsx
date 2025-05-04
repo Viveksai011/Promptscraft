@@ -2,6 +2,7 @@ import { ArrowRight } from 'lucide-react'
 import Link from 'next/link'
 import React from 'react'
 import { Button } from '@/components/ui/button'
+import { ContactModal } from '@/components/comman/custommodal'
 
 const Banner = () => {
   return (
@@ -11,11 +12,17 @@ const Banner = () => {
       <p className="text-xl text-white/80 mb-8 max-w-2xl mx-auto">
         Start generating powerful prompts that unlock the full potential of AI models.
       </p>
+      <div className='flex flex-wrap items-center justify-center gap-3'>
+
       <Button asChild size="lg" variant="secondary" className="font-semibold">
             <Link href="/generator">
               Try the Generator Now <ArrowRight className="ml-2 h-5 w-5" />
             </Link>
           </Button>
+      <ContactModal>
+        <span className='font-semibold p-2.5 rounded-md ml-3  cursor-pointer border-2 border-purple-600 text-black dark:text-white '>Contact Us</span>
+      </ContactModal>
+      </div>
     </div>
   </section>
   )

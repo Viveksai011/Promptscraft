@@ -8,8 +8,9 @@ import Navbar from "@/components/header/navbar"
 const inter = Inter({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
-  title: "PromptCraft - AI Prompt Generator",
-  description: "Generate optimized prompts for AI models based on your specific requirements",
+  title: "PromptCraft - Expert AI Prompts for Creative & Productive Results",
+  description: "Boost your AI output with PromptCraft. Explore a vast library of expert-crafted AI prompts designed to improve creativity, productivity, and efficiency. Perfect for writers, developers, marketers, and more!",
+  metadataBase: new URL("https://promptscraft.vercel.app"),
 }
 
 export default function RootLayout({
