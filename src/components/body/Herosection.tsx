@@ -13,7 +13,7 @@ const Herosection = () => {
               </h1>
               <p className="text-lg md:text-xl text-gray-600 dark:text-gray-300 mb-8">
                 Transform your ideas into powerful prompts that get the best results from AI models. Our intelligent
-                prompt generator helps you communicate effectively with AI.
+                prompt generator help you communicate effectively with AI.
               </p>
               <div className="flex flex-col sm:flex-row gap-4">
                
