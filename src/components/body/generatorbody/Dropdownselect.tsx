@@ -3,14 +3,13 @@ import {
     SelectContent,
     SelectGroup,
     SelectItem,
-    SelectLabel,
     SelectTrigger,
     SelectValue,
   } from "@/components/ui/select";
-  
+  import type { UseCase } from "@/components/body/generatorbody/StructureTemplate";
   interface DropdownselectProps {
-    setUseCase: (value: string) => void;
-    useCase: string;
+    setUseCase: (value: UseCase) => void;
+    useCase: UseCase;
   }
   
   const Dropdownselect = ({ setUseCase, useCase }: DropdownselectProps) => {

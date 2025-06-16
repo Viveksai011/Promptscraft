@@ -5,7 +5,7 @@ import Groq from "groq-sdk";
 const groq = new Groq({ apiKey: process.env.GROQ_CLOUD_API_KEY });
 
 // Function to generate prompts using the Groq API
-const generatePromptsGroq = async (userInput: string): Promise<string[]> => {
+const generatePromptsGroq = async (userInput: string): Promise<string> => {
   try {
     // Request chat completion using the "allam-2-7b" model
     const chatCompletion = await groq.chat.completions.create({
@@ -23,11 +23,11 @@ const generatePromptsGroq = async (userInput: string): Promise<string[]> => {
       stop: null,
     }); // Collect the response text from the streamed message
 
-    let generatedText: string[] = []; // Iterate over the response stream to collect generated text
+    let generatedText = ""; // Iterate over the response stream to collect generated text
 
     for await (const chunk of chatCompletion) {
       if (chunk.choices[0]?.delta?.content) {
-        generatedText.push(chunk.choices[0].delta.content);
+        generatedText += chunk.choices[0].delta.content;
       }
     }
 
@@ -45,7 +45,7 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "Input required" }, { status: 400 });
     } // Generate prompts using the Groq API
 
-    let prompts: string[] = [];
+    let prompts: string = "";
     try {
       prompts = await generatePromptsGroq(userInput);
     } catch (error) {
