@@ -21,6 +21,7 @@ export default function Navbar() {
     { href: "/", label: "Home" },
     { href: "/about", label: "About" },
     { href: "/generator", label: "Generator" },
+    { href: "/libraries", label: "Libraries" },
   ]
 
   return (
