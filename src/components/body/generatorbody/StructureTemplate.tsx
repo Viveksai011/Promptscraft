@@ -19,8 +19,8 @@ const generateGoals = (goals: string[]): string => {
 const StructureTemplate = (useCase: UseCase, userInput: string): string => {
   const templates: Record<UseCase, Template> = {
     "Prompt Generator": {
-      intro: "You are an expert in generating prompts.",
-      instructions: "Your task is to generate an optimized prompt based on this description.",
+      intro: "You are an expert in generating good prompts for AI models to get the best results in maximum in 12 points.",
+      instructions: "Your task is to generate an optimized prompt based on this description. Use clear and effective language. Structure it professionally.",
       goals: [
         "Goal-driven",
         "Detailed",
@@ -81,7 +81,7 @@ The user has provided the following description:
 ${template.instructions}
 Make sure the prompt includes:
 ${formattedGoals}
-Optimized Prompt:`;
+Make sure to use clear and effective language. Structure it professionally.`;
 };
 
 export default StructureTemplate;

@@ -92,7 +92,7 @@ const Aigenerator = () => {
           <Dropdownselect setUseCase={setUseCase} useCase={useCase} />
           <Button
             onClick={handleGenerate}
-            className="w-[200px]  bg-gradient-to-r from-purple-600 to-blue-500 hover:from-purple-700 hover:to-blue-600"
+            className="  bg-gradient-to-r from-purple-600 to-blue-500 hover:from-purple-700 hover:to-blue-600"
             disabled={isGenerating}
           >
             {isGenerating ? (
@@ -103,7 +103,7 @@ const Aigenerator = () => {
             ) : (
               <>
                 <Sparkles className="mr-2 h-4 w-4" />
-                Generate Prompts
+                Generate {useCase === "Prompt Generator" ? "Prompt" : useCase}
               </>
             )}
           </Button>
