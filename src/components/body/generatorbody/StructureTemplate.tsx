@@ -72,7 +72,7 @@ const StructureTemplate = (useCase: UseCase, userInput: string): string => {
     throw new Error("Invalid use case selected");
   }
 
-  // Use the helper function to format the goals
+ 
   const formattedGoals = generateGoals(template.goals);
 
   return `${template.intro}

@@ -1,5 +1,3 @@
-// lib/contact.ts
-
 export const contactText = {
     dialogTitle: "Contact Us",
     dialogDescription: `We do love to hear your suggestions and feedback to improve PromptCraft. 

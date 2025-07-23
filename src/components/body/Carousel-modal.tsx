@@ -81,7 +81,7 @@ export function Carouselmodal({
         </DialogHeader>
 
         <div className="relative flex-1 overflow-hidden">
-          {/* Carousel Container */}
+         
 
           <div
             className="flex transition-transform duration-300 ease-in-out"
@@ -135,7 +135,7 @@ export function Carouselmodal({
             ))}
           </div>
 
-          {/* Navigation Arrows */}
+        
           <Button
             variant="outline"
             size="icon"
@@ -156,7 +156,7 @@ export function Carouselmodal({
           </Button>
         </div>
 
-        {/* Slide Indicators */}
+      
 
         <div className="flex justify-center space-x-2 p-6 pt-4 border-t border-gray-200 dark:border-gray-700">
           {prompts.map((_, index) => (

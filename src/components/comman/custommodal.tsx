@@ -1,9 +1,9 @@
-"use client"
+"use client";
 
-import type React from "react"
-import { useState } from "react"
-import { Coffee, Send, Loader2 } from "lucide-react"
-import { Button } from "@/components/ui/button"
+import type React from "react";
+import { useState } from "react";
+import { Coffee, Send, Loader2 } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -12,63 +12,98 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Textarea } from "@/components/ui/textarea"
-import { useToast } from "@/hooks/use-toast"
-import { contactText } from "@/lib/contact" 
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import { useToast } from "@/hooks/use-toast";
+import { contactText } from "@/lib/contact";
+import emailjs from "@emailjs/browser";
 
 interface ContactModalProps {
-  children: React.ReactNode
-  className?: string
+  children: React.ReactNode;
+  className?: string;
 }
 
-export const ContactModal: React.FC<ContactModalProps> = ({ children, className = "" }) => {
-  const [name, setName] = useState("")
-  const [email, setEmail] = useState("")
-  const [message, setMessage] = useState("")
-  const [isSubmitting, setIsSubmitting] = useState(false)
-  const [isOpen, setIsOpen] = useState(false)
-  const { toast } = useToast()
+export const ContactModal: React.FC<ContactModalProps> = ({
+  children,
+  className = "",
+}) => {
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [message, setMessage] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
+  const { toast } = useToast();
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setIsSubmitting(true)
+    e.preventDefault();
+    setIsSubmitting(true);
+
 
     if (!name.trim() || !email.trim() || !message.trim()) {
       toast({
         title: contactText.validation.missingFields.title,
         description: contactText.validation.missingFields.description,
         variant: "destructive",
-      })
-      setIsSubmitting(false)
-      return
+      });
+      setIsSubmitting(false);
+      return;
     }
 
-    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailPattern.test(email)) {
       toast({
         title: contactText.validation.invalidEmail.title,
         description: contactText.validation.invalidEmail.description,
         variant: "destructive",
-      })
-      setIsSubmitting(false)
-      return
+      });
+      setIsSubmitting(false);
+      return;
     }
 
-    setTimeout(() => {
+
+    const templateParams = {
+      from_name: name,
+      from_email: email,
+      message,
+    };
+
+   
+
+    try {
+     
+      const response = await emailjs.send(
+        process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID ?? "",
+        process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID ?? "",
+        templateParams,
+        process.env.NEXT_PUBLIC_EMAILJS_USER_ID
+      );
+
+      
+
+     
+      setTimeout(() => {
+        toast({
+          title: contactText.success.title,
+          description: contactText.success.description,
+        });
+        setName("");
+        setEmail("");
+        setMessage("");
+        setIsSubmitting(false);
+        setIsOpen(false); 
+      }, 1500);
+    } catch (error) {
+      console.error("Error sending email:", error);
       toast({
-        title: contactText.success.title,
-        description: contactText.success.description,
-      })
-      setName("")
-      setEmail("")
-      setMessage("")
-      setIsSubmitting(false)
-      setIsOpen(false)
-    }, 1500)
-  }
+        title: "Error sending email",
+        description: "Please try again later.",
+        variant: "destructive",
+      });
+      setIsSubmitting(false);
+    }
+  };
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
@@ -82,7 +117,11 @@ export const ContactModal: React.FC<ContactModalProps> = ({ children, className 
               <div className="flex items-center p-4 bg-purple-50 dark:bg-purple-900/20 rounded-lg">
                 <Coffee className="h-5 w-5 text-purple-600 dark:text-purple-400 mr-3 flex-shrink-0" />
                 <p className="text-sm">
-                  {contactText.support.message.split(contactText.support.linkText)[0]}
+                  {
+                    contactText.support.message.split(
+                      contactText.support.linkText
+                    )[0]
+                  }
                   <a
                     href="/"
                     target="_blank"
@@ -91,7 +130,11 @@ export const ContactModal: React.FC<ContactModalProps> = ({ children, className 
                   >
                     {contactText.support.linkText}
                   </a>
-                  {contactText.support.message.split(contactText.support.linkText)[1]}
+                  {
+                    contactText.support.message.split(
+                      contactText.support.linkText
+                    )[1]
+                  }
                 </p>
               </div>
             </div>
@@ -131,7 +174,7 @@ export const ContactModal: React.FC<ContactModalProps> = ({ children, className 
             />
           </div>
           <DialogFooter>
-            <Button disabled className="w-full sm:w-auto">
+            <Button type="submit" className="w-full sm:w-auto">
               {isSubmitting ? (
                 <>
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
@@ -148,5 +191,5 @@ export const ContactModal: React.FC<ContactModalProps> = ({ children, className 
         </form>
       </DialogContent>
     </Dialog>
-  )
-}
+  );
+};

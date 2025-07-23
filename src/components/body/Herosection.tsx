@@ -12,7 +12,7 @@ const Herosection = () => {
                 Craft Perfect Prompts for AI
               </h1>
               <p className="text-lg md:text-xl text-gray-600 dark:text-gray-300 mb-8">
-                Transform your ideas into powerful prompts that get the best results from AI models. Our intelligent
+                Transform your ideas & thoughts into powerful prompts that get the best results from AI models. Our intelligent
                 prompt generator helps you communicate effectively with AI.
               </p>
               <div className="flex flex-col sm:flex-row gap-4">
@@ -36,7 +36,7 @@ const Herosection = () => {
               <div className="bg-white dark:bg-gray-800 rounded-xl shadow-xl p-6 border border-gray-200 dark:border-gray-700">
                 <div className="flex items-center mb-4">
                   <Sparkles className="h-6 w-6 text-purple-500 mr-2" />
-                  <h3 className="font-semibold text-lg">Sample Prompt</h3>
+                  <h2 className="font-semibold text-lg">Sample Prompt</h2>
                 </div>
                 <p className="text-gray-700 dark:text-gray-300 mb-4">
                   Create a detailed tutorial on how to build a responsive website using React and Tailwind CSS,
