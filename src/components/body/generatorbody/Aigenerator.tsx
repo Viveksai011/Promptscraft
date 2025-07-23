@@ -30,7 +30,7 @@ const Aigenerator = () => {
     setIsGenerating(true);
 
     try {
-      // Format the structured prompt before sending it to the API
+
       const structuredPrompt = StructureTemplate(useCase, userInput);
 
       const response = await fetch("/api/generate-prompts", {
@@ -38,13 +38,13 @@ const Aigenerator = () => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ userInput: structuredPrompt }), // Send the structured prompt
+        body: JSON.stringify({ userInput: structuredPrompt }),
       });
 
       const data = await response.json();
 
       if (response.ok) {
-        // Assuming the API returns an array of prompts
+      
         setGeneratedPrompts(data.prompts);
       } else {
         toast({

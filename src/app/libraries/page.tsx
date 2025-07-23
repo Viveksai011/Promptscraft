@@ -1,105 +1,55 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { Search } from "lucide-react"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import  {Carouselmodal}  from "@/components/body/Carousel-modal"
-import { detailedPromptLibraries } from "@/lib/contant/Promptlibrarties"
-import { Input } from "@/components/ui/input"
-
-// Simplified prompt data for the card layout
-const promptCards = [
-  {
-    id: "code-explainer",
-    title: "Code Explainer",
-    description: "Explains code in simple terms",
-    preview: `Please explain this code in simple terms, as if you're teaching a beginner programmer:
-
-[paste your code here]
-
-Break down what each part does and why it's important.`,
-  },
-  {
-    id: "bug-finder",
-    title: "Bug Finder",
-    description: "Helps identify bugs in code",
-    preview: `Review this code and identify potential bugs, performance issues, or security vulnerabilities:
-
-[paste your code here]
-
-Provide specific suggestions for fixes.`,
-  },
-  {
-    id: "feature-planner",
-    title: "Feature Planner",
-    description: "Helps plan new features",
-    preview: `Help me plan the implementation of this feature. Consider edge cases, potential challenges, and best practices:
-
-[describe your feature here]`,
-  },
-  {
-    id: "sql-helper",
-    title: "SQL Query Helper",
-    description: "Assists with SQL queries",
-    preview: `Help me write an efficient SQL query to accomplish the following task:
-
-[describe what you want to achieve]
-
-Include explanations for complex parts.`,
-  },
-  {
-    id: "api-documentation",
-    title: "API Documentation",
-    description: "Generates API documentation",
-    preview: `Generate clear and comprehensive documentation for this API endpoint, including parameters, responses, and examples:
-
-[paste your API code or describe the endpoint]`,
-  },
-  {
-    id: "code-refactorer",
-    title: "Code Refactorer",
-    description: "Suggests code improvements",
-    preview: `Review this code and suggest improvements for better readability, maintainability, and performance:
-
-[paste your code here]
-
-Explain why each change would be beneficial.`,
-  },
-]
+import { useState } from "react";
+import { Search } from "lucide-react";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Carouselmodal } from "@/components/body/Carousel-modal";
+import { detailedPromptLibraries } from "@/lib/contant/Promptlibrarties";
+import {promptCards} from "@/lib/librariesdata";
+import { Input } from "@/components/ui/input";
 
 export default function Libraries() {
-  const [searchQuery, setSearchQuery] = useState("")
-  const [selectedCategory, setSelectedCategory] = useState<string | null>(null)
-  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [searchQuery, setSearchQuery] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const filteredCards = promptCards.filter(
     (card) =>
       card.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
       card.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      card.preview.toLowerCase().includes(searchQuery.toLowerCase()),
-  )
+      card.preview.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
   const handleCardClick = (categoryId: string, categoryTitle: string) => {
-    setSelectedCategory(categoryId)
-    setIsModalOpen(true)
-  }
+    setSelectedCategory(categoryId);
+    setIsModalOpen(true);
+  };
 
   const handleCloseModal = () => {
-    setIsModalOpen(false)
-    setSelectedCategory(null)
-  }
+    setIsModalOpen(false);
+    setSelectedCategory(null);
+  };
 
   const getSelectedCategoryData = () => {
-    if (!selectedCategory) return { title: "", prompts: [] }
+    if (!selectedCategory) return { title: "", prompts: [] };
 
-    const card = promptCards.find((card) => card.id === selectedCategory)
-    const prompts = detailedPromptLibraries[selectedCategory as keyof typeof detailedPromptLibraries] || []
+    const card = promptCards.find((card) => card.id === selectedCategory);
+    const prompts =
+      detailedPromptLibraries[
+        selectedCategory as keyof typeof detailedPromptLibraries
+      ] || [];
 
     return {
       title: card?.title || "",
       prompts: prompts,
-    }
-  }
+    };
+  };
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-12">
@@ -109,11 +59,11 @@ export default function Libraries() {
             Prompt Libraries
           </h1>
           <p className="text-center text-gray-600 dark:text-gray-300 mb-8 max-w-3xl mx-auto">
-            Browse our collection of expertly crafted prompts for various development tasks. Click any card to explore
-            10 specialized prompts for that category.
+            Browse our collection of expertly crafted prompts for various
+            development tasks. Click any card to explore 10 specialized prompts
+            for that category.
           </p>
 
-          {/* Search */}
           <div className="mb-8 max-w-md mx-auto">
             <div className="relative">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-5 w-5" />
@@ -126,7 +76,6 @@ export default function Libraries() {
             </div>
           </div>
 
-          {/* Prompt Cards Grid */}
           {filteredCards.length > 0 ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {filteredCards.map((card) => (
@@ -146,7 +95,9 @@ export default function Libraries() {
                   <CardContent>
                     <div className="bg-gray-50 dark:bg-gray-900 p-3 rounded-md border border-gray-200 dark:border-gray-600">
                       <pre className="text-xs text-gray-700 dark:text-gray-300 whitespace-pre-wrap font-mono leading-relaxed overflow-hidden">
-                        {card.preview.length > 150 ? `${card.preview.substring(0, 150)}...` : card.preview}
+                        {card.preview.length > 150
+                          ? `${card.preview.substring(0, 150)}...`
+                          : card.preview}
                       </pre>
                     </div>
                     <div className="mt-3 text-center">
@@ -160,36 +111,51 @@ export default function Libraries() {
             </div>
           ) : (
             <div className="text-center py-12">
-              <p className="text-gray-500 dark:text-gray-400">No prompts found matching your search.</p>
+              <p className="text-gray-500 dark:text-gray-400">
+                No prompts found matching your search.
+              </p>
             </div>
           )}
 
-          {/* Usage Instructions */}
           <div className="mt-12 bg-white dark:bg-gray-800 rounded-xl p-6 border border-gray-200 dark:border-gray-700">
-            <h3 className="text-xl font-semibold mb-4 text-gray-800 dark:text-white">How to Use These Prompts</h3>
+            <h3 className="text-xl font-semibold mb-4 text-gray-800 dark:text-white">
+              How to Use These Prompts
+            </h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
-                <h4 className="font-medium text-gray-800 dark:text-white mb-2">1. Click to Explore</h4>
+                <h4 className="font-medium text-gray-800 dark:text-white mb-2">
+                  1. Click to Explore
+                </h4>
                 <p className="text-sm text-gray-600 dark:text-gray-300">
-                  Click any card to open a carousel with 10 specialized prompts for that category.
+                  Click any card to open a carousel with 10 specialized prompts
+                  for that category.
                 </p>
               </div>
               <div>
-                <h4 className="font-medium text-gray-800 dark:text-white mb-2">2. Navigate & Copy</h4>
+                <h4 className="font-medium text-gray-800 dark:text-white mb-2">
+                  2. Navigate & Copy
+                </h4>
                 <p className="text-sm text-gray-600 dark:text-gray-300">
-                  Use arrows or dots to navigate through prompts, then copy the ones you need.
+                  Use arrows or dots to navigate through prompts, then copy the
+                  ones you need.
                 </p>
               </div>
               <div>
-                <h4 className="font-medium text-gray-800 dark:text-white mb-2">3. Customize</h4>
+                <h4 className="font-medium text-gray-800 dark:text-white mb-2">
+                  3. Customize
+                </h4>
                 <p className="text-sm text-gray-600 dark:text-gray-300">
-                  Replace the bracketed placeholders with your specific content and requirements.
+                  Replace the bracketed placeholders with your specific content
+                  and requirements.
                 </p>
               </div>
               <div>
-                <h4 className="font-medium text-gray-800 dark:text-white mb-2">4. Use with AI</h4>
+                <h4 className="font-medium text-gray-800 dark:text-white mb-2">
+                  4. Use with AI
+                </h4>
                 <p className="text-sm text-gray-600 dark:text-gray-300">
-                  Paste the customized prompt into your preferred AI model for optimal results.
+                  Paste the customized prompt into your preferred AI model for
+                  optimal results.
                 </p>
               </div>
             </div>
@@ -205,5 +171,5 @@ export default function Libraries() {
         prompts={getSelectedCategoryData().prompts}
       />
     </div>
-  )
+  );
 }

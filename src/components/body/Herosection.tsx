@@ -36,7 +36,7 @@ const Herosection = () => {
               <div className="bg-white dark:bg-gray-800 rounded-xl shadow-xl p-6 border border-gray-200 dark:border-gray-700">
                 <div className="flex items-center mb-4">
                   <Sparkles className="h-6 w-6 text-purple-500 mr-2" />
-                  <h3 className="font-semibold text-lg">Sample Prompt</h3>
+                  <h2 className="font-semibold text-lg">Sample Prompt</h2>
                 </div>
                 <p className="text-gray-700 dark:text-gray-300 mb-4">
                   Create a detailed tutorial on how to build a responsive website using React and Tailwind CSS,
