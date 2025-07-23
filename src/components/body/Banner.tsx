@@ -20,7 +20,7 @@ const Banner = () => {
             </Link>
           </Button>
       <ContactModal>
-        <span className='font-semibold p-2.5 rounded-md ml-3  cursor-pointer border-2 border-purple-600 text-black dark:text-white '>Contact Us</span>
+        <span role="button" aria-label="Contact us" className='font-semibold px-2.5 py-2 rounded-md ml-3  cursor-pointer border border-purple-600 dark:text-black text-white bg-purple-900/50 dark:bg-white '>Contact Us</span>
       </ContactModal>
       </div>
     </div>

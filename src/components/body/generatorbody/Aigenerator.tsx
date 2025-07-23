@@ -6,12 +6,15 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 import Dropdownselect from "@/components/body/generatorbody/Dropdownselect";
+import StructureTemplate from "@/components/body/generatorbody/StructureTemplate";
+import type { UseCase } from "@/components/body/generatorbody/StructureTemplate";
 
 const Aigenerator = () => {
   const [userInput, setUserInput] = useState("");
   const [generatedPrompts, setGeneratedPrompts] = useState<string>("");
   const [isGenerating, setIsGenerating] = useState(false);
-  const [useCase, setUseCase] = useState<string>("Optimize Prompt");
+  const [useCase, setUseCase] = useState<UseCase>("Optimize Prompt");
+  const [isCopied, setIsCopied] = useState(false);
   const { toast } = useToast();
 
   const handleGenerate = async () => {
@@ -27,31 +30,21 @@ const Aigenerator = () => {
     setIsGenerating(true);
 
     try {
-      // Format the structured prompt before sending it to the API
-      const structuredPrompt = `You are an expert in ${useCase}.
-The user has provided the following description:
-"${userInput}"
-Your task is to generate an optimized prompt based on this description.
-Use clear and effective language. Structure it professionally.
-Make sure the prompt is:
-- Goal-driven
-- Detailed
-- Role-assigned (if relevant)
-- Specific about tone or style
-Optimized Prompt:`;
+
+      const structuredPrompt = StructureTemplate(useCase, userInput);
 
       const response = await fetch("/api/generate-prompts", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ userInput: structuredPrompt }), // Send the structured prompt
+        body: JSON.stringify({ userInput: structuredPrompt }),
       });
 
       const data = await response.json();
 
       if (response.ok) {
-        // Assuming the API returns an array of prompts
+      
         setGeneratedPrompts(data.prompts);
       } else {
         toast({
@@ -78,6 +71,7 @@ Optimized Prompt:`;
       title: "Copied to clipboard",
       description: "The prompt has been copied to your clipboard.",
     });
+    setIsCopied(true);
   };
 
   return (
@@ -98,7 +92,7 @@ Optimized Prompt:`;
           <Dropdownselect setUseCase={setUseCase} useCase={useCase} />
           <Button
             onClick={handleGenerate}
-            className="w-[200px]  bg-gradient-to-r from-purple-600 to-blue-500 hover:from-purple-700 hover:to-blue-600"
+            className="  bg-gradient-to-r from-purple-600 to-blue-500 hover:from-purple-700 hover:to-blue-600"
             disabled={isGenerating}
           >
             {isGenerating ? (
@@ -109,7 +103,7 @@ Optimized Prompt:`;
             ) : (
               <>
                 <Sparkles className="mr-2 h-4 w-4" />
-                Generate Prompts
+                Generate {useCase === "Prompt Generator" ? "Prompt" : useCase}
               </>
             )}
           </Button>
@@ -120,15 +114,15 @@ Optimized Prompt:`;
         {generatedPrompts && (
           <div className="mt-4 space-y-2">
             <div>
-              <p className="border p-4 rounded-md shadow-md max-h-40 overflow-auto bg-gray-50 dark:bg-gray-800">
-                {generatedPrompts}
-              </p>
+              <pre className="border p-4 rounded-md shadow-md max-h-80 overflow-auto bg-gray-50 dark:bg-gray-800 whitespace-pre-wrap">
+                  <code>{generatedPrompts}</code>
+              </pre>
 
               <Button
                 onClick={() => handleCopy(generatedPrompts)}
                 className="mt-2 w-full bg-gradient-to-r from-green-600 to-green-500 hover:from-green-700 hover:to-green-600"
               >
-                Copy to Clipboard
+                {isCopied ? "Copied!" : "Copy to Clipboard"}
               </Button>
             </div>
           </div>

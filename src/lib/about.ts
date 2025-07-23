@@ -1,6 +1,5 @@
-import { BookOpen, Zap, Target, CheckCircle } from "lucide-react"
+import { BookOpen, Zap, Target } from "lucide-react"
 
-// Define types for the prompt objects
 export type PromptItem = {
   icon: React.ElementType;
   title: string;

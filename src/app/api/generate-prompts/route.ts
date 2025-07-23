@@ -1,13 +1,12 @@
 import { NextResponse } from "next/server";
 import Groq from "groq-sdk";
 
-// Initialize Groq API using GROQ_CLOUD_API_KEY
 const groq = new Groq({ apiKey: process.env.GROQ_CLOUD_API_KEY });
 
-// Function to generate prompts using the Groq API
-const generatePromptsGroq = async (userInput: string): Promise<string[]> => {
+
+const generatePromptsGroq = async (userInput: string): Promise<string> => {
   try {
-    // Request chat completion using the "allam-2-7b" model
+ 
     const chatCompletion = await groq.chat.completions.create({
       messages: [
         {
@@ -15,19 +14,19 @@ const generatePromptsGroq = async (userInput: string): Promise<string[]> => {
           content: userInput,
         },
       ],
-      model: "allam-2-7b", // Specify the model as "allam-2-7b"
-      temperature: 1, // Adjust temperature if needed
+      model: "allam-2-7b", 
+      temperature: 1, 
       max_completion_tokens: 1024,
       top_p: 1,
-      stream: true, // Enable streaming if desired
+      stream: true, 
       stop: null,
-    }); // Collect the response text from the streamed message
+    }); 
 
-    let generatedText: string[] = []; // Iterate over the response stream to collect generated text
+    let generatedText = ""; 
 
     for await (const chunk of chatCompletion) {
       if (chunk.choices[0]?.delta?.content) {
-        generatedText.push(chunk.choices[0].delta.content);
+        generatedText += chunk.choices[0].delta.content;
       }
     }
 
@@ -37,15 +36,15 @@ const generatePromptsGroq = async (userInput: string): Promise<string[]> => {
   }
 };
 
-// Handle the POST request for generating prompts
+
 export async function POST(req: Request) {
   try {
-    const { userInput }: { userInput: string } = await req.json(); // Type the request body
+    const { userInput }: { userInput: string } = await req.json(); 
     if (!userInput) {
       return NextResponse.json({ error: "Input required" }, { status: 400 });
-    } // Generate prompts using the Groq API
+    } 
 
-    let prompts: string[] = [];
+    let prompts: string = "";
     try {
       prompts = await generatePromptsGroq(userInput);
     } catch (error) {
